@@ -8,7 +8,7 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
-	  'nvim-telescope/telescope.nvim', tag = '0.1.)1)',
+	  'nvim-telescope/telescope.nvim', tag = '0.1.1',
 	  -- or  )                        , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
@@ -56,18 +56,20 @@ return require('packer').startup(function(use)
 	  {'hrsh7th/nvim-cmp'},         -- Required
 	  {'hrsh7th/cmp-nvim-lsp'},     -- Required
 	  {'hrsh7th/cmp-buffer'},       -- Optional
+	  {'hrsh7th/cmp-nvim-lsp-signature-help'},       -- Optional
 	  {'hrsh7th/cmp-path'},         -- Optional
+	  {'hrsh7th/cmp-vsnip'},         -- Optional
+	  {'hrsh7th/vim-vsnip'},         -- Optional
+      {'hrsh7th/cmp-nvim-lua'},     -- Optional
 	  {'saadparwaiz1/cmp_luasnip'}, -- Optional
-	  {'hrsh7th/cmp-nvim-lua'},     -- Optional
 
 	  -- Snippets
-  {'L3MON4D3/LuaSnip'},             -- Required
-	  {'rafamadriz/friendly-snippets'}, -- Optional
+      {'L3MON4D3/LuaSnip'},             -- Required
+      {'rafamadriz/friendly-snippets'}, -- Optional
   }
   }
 
   use { "terrortylor/nvim-comment" }
-  use { 'lewis6991/gitsigns.nvim' }
   use { 'lewis6991/gitsigns.nvim' }
 
 end)
