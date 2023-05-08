@@ -22,23 +22,46 @@ cmp.setup({
     },
 
     mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<Tab>'] = cmp.mapping.select_next_item(),
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' },
-    }, {
-        { name = 'buffer' },
-    })
+    sources = {
+        { name = 'path' },                                       -- file paths
+        { name = 'nvim_lsp',               keyword_length = 3 }, -- from language server
+        { name = 'nvim_lsp_signature_help' },                    -- display function signatures with current parameter emphasized
+        { name = 'nvim_lua',               keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+        { name = 'buffer',                 keyword_length = 2 }, -- source current buffer
+        { name = 'vsnip',                  keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
+        { name = 'calc' },                                       -- source for math calculation
+    },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    formatting = {
+        fields = { 'menu', 'abbr', 'kind' },
+        format = function(entry, item)
+            local menu_icon = {
+                nvim_lsp = 'λ',
+                vsnip = '⋗',
+                buffer = 'Ω',
+                path = '🖫',
+            }
+            item.menu = menu_icon[entry.source.name]
+            return item
+        end,
+    },
 })
 
 local on_attach = function(_, _)
     local opts = { noremap = true, silent = true, buffer = bufnr }
-
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
@@ -51,7 +74,25 @@ end
 
 lspconfig.lua_ls.setup {
     capabilities = capabilities,
-    on_attach = on_attach
+    on_attach = on_attach,
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = vim.split(package.path, ';')
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { 'vim' }
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = { [vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true }
+            }
+        }
+    }
 }
 
 lspconfig['gopls'].setup {
@@ -108,6 +149,20 @@ lspconfig['gopls'].setup {
     },
 }
 
+lspconfig.golangci_lint_ls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        gopls = {
+            gofumpt = true,
+        },
+    },
+    flags = {
+        debounce_text_changes = 150,
+    },
+}
+
+
 local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*.go",
@@ -117,36 +172,23 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     group = format_sync_grp,
 })
 
-local jdtls_dir = vim.fn.stdpath('data') .. '/mason/packages/jdtls'
-local config_dir = jdtls_dir .. '/config_linux'
-local plugins_dir = jdtls_dir .. '/plugins/'
-local path_to_jar = plugins_dir .. 'org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar'
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-local workspace_dir = '~/.jdtls/workspace-root/' .. project_name
-os.execute("mkdir " .. workspace_dir)
+local rt = require("rust-tools")
 
-
-lspconfig['jdtls'].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    cmd = {
-        '/usr/bin/java',
-        '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-        '-Dosgi.bundles.defaultStartLevel=4',
-        '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        '-Dlog.protocol=true',
-        '-Dlog.level=ALL',
-        -- '-javaagent:' .. path_to_lombok,
-        '-Xmx1G',
-        '--add-modules=ALL-SYSTEM',
-        '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-        '-jar', path_to_jar,
-        '-configuration', config_dir,
-        '-data', workspace_dir
+rt.setup({
+    server = {
+        on_attach = function(_, bufnr)
+            vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+            vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+        end,
     },
-    root_dir = {
-        ".git", "mvnw", "gradlew", "pom.xml", "build.gradle"
-    },
-
-}
+})
+-- lspconfig['rust_analyzer'].setup {
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     cmd = {
+--         "rustup", "run", "stable", "rust-analyzer",
+--     },
+--     diagnostics = {
+--         enable = true
+--     }
+-- }

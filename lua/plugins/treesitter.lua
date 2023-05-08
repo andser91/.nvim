@@ -1,6 +1,6 @@
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = {"lua", "rust", "go", "bash", "java", "yaml" },
+  ensure_installed = {"lua", "rust", "toml", "go", "bash", "java", "yaml" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -13,7 +13,7 @@ require'nvim-treesitter.configs'.setup {
 
   ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
   -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-  ident = { enable = true }, 
+  ident = { enable = true },
   rainbow = {
       enable = true,
       extended_mode = true,
