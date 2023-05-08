@@ -10,14 +10,25 @@ vim.api.nvim_set_keymap('n', '<leader>f', ':NvimTreeFocus<CR>', {noremap = true,
 
 -- OR setup with some options
 require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 30,
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    
-  },
+    sort_by = "case_sensitive",
+    disable_netrw = true,
+    hijack_cursor = true,
+    view = {
+        width = 30,
+    },
+    renderer = {
+        group_empty = true,
+    },
+    filters = {
+    },
+    diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        },
+    },
 })

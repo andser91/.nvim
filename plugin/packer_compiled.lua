@@ -109,6 +109,16 @@ _G.packer_plugins = {
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["go.nvim"] = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/go.nvim",
+    url = "https://github.com/ray-x/go.nvim"
+  },
+  ["guihua.lua"] = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/guihua.lua",
+    url = "https://github.com/ray-x/guihua.lua"
+  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -133,11 +143,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nvim-comment",
     url = "https://github.com/terrortylor/nvim-comment"
-  },
-  ["nvim-jdtls"] = {
-    loaded = true,
-    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nvim-jdtls",
-    url = "https://github.com/mfussenegger/nvim-jdtls"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -193,6 +198,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
   },
   ["vim-vsnip"] = {
     loaded = true,

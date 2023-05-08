@@ -36,6 +36,7 @@ return require('packer').startup(function(use)
 	  },
   }
 
+  use 'tpope/vim-fugitive'
   use {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -46,8 +47,9 @@ return require('packer').startup(function(use)
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-vsnip",
       "hrsh7th/vim-vsnip",
-      "mfussenegger/nvim-jdtls"
-  }
+      "ray-x/go.nvim",
+      "ray-x/guihua.lua",
+}
   use { "mbbill/undotree"}
   use {"akinsho/toggleterm.nvim", tag = '*' }
 
