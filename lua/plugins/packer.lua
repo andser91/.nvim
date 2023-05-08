@@ -12,7 +12,7 @@ return require('packer').startup(function(use)
 	  -- or  )                        , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
-  use { 
+  use {
 	  "catppuccin/nvim", as = "catppuccin"
   }
   use {
@@ -27,49 +27,32 @@ return require('packer').startup(function(use)
   use {
 	  'nvim-treesitter/nvim-treesitter',
 	  run = ':TSUpdate'
-  }  
+  }
   use { 'nvim-treesitter/playground' }
   use {
 	  "nvim-tree/nvim-tree.lua",          -- https://github.com/nvim-tree/nvim-tree.lua
 	  requires = {
 		  "nvim-tree/nvim-web-devicons",    -- https://github.com/nvim-tree/nvim-web-devicons
 	  },
-  }  
+  }
+
+  use {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
+      "mfussenegger/nvim-jdtls"
+  }
   use { "mbbill/undotree"}
   use {"akinsho/toggleterm.nvim", tag = '*' }
 
-  use {
-	  'VonHeikemen/lsp-zero.nvim',
-	  branch = 'v2.x',
-	  requires = {
-		  -- LSP Support
-		  {'neovim/nvim-lspconfig'},             -- Required
-		  {                                      -- Optional
-		  'williamboman/mason.nvim',
-		  run = function()
-			  pcall(vim.cmd, 'MasonUpdate')
-		  end,
-	  },
-	  {'williamboman/mason-lspconfig.nvim'}, -- Optional
-
-	  -- Autocompletion
-	  {'hrsh7th/nvim-cmp'},         -- Required
-	  {'hrsh7th/cmp-nvim-lsp'},     -- Required
-	  {'hrsh7th/cmp-buffer'},       -- Optional
-	  {'hrsh7th/cmp-nvim-lsp-signature-help'},       -- Optional
-	  {'hrsh7th/cmp-path'},         -- Optional
-	  {'hrsh7th/cmp-vsnip'},         -- Optional
-	  {'hrsh7th/vim-vsnip'},         -- Optional
-      {'hrsh7th/cmp-nvim-lua'},     -- Optional
-	  {'saadparwaiz1/cmp_luasnip'}, -- Optional
-
-	  -- Snippets
-      {'L3MON4D3/LuaSnip'},             -- Required
-      {'rafamadriz/friendly-snippets'}, -- Optional
-  }
-  }
 
   use { "terrortylor/nvim-comment" }
   use { 'lewis6991/gitsigns.nvim' }
-
+  use { 'majutsushi/tagbar' }
 end)
