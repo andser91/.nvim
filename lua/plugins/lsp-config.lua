@@ -126,7 +126,7 @@ lspconfig['gopls'].setup {
                 deepequalerrors = true,
                 embed = true,
                 errorsas = true,
-                fieldalignment = true,
+                fieldalignment = false,
                 httpresponse = true,
                 ifaceassert = true,
                 loopclosure = true,
@@ -150,7 +150,7 @@ lspconfig['gopls'].setup {
                 unmarshal = true,
                 unreachable = true,
                 unsafeptr = true,
-                unusedparams = true,
+                unusedparams = false,
                 unusedresult = true,
                 unusedvariable = true,
                 unusedwrite = true,
@@ -165,20 +165,6 @@ lspconfig['gopls'].setup {
         },
     },
 }
-
-lspconfig.golangci_lint_ls.setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-        gopls = {
-            gofumpt = true,
-        },
-    },
-    flags = {
-        debounce_text_changes = 150,
-    },
-}
-
 
 local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
 vim.api.nvim_create_autocmd("BufWritePre", {

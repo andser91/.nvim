@@ -84,4 +84,6 @@ return require('packer').startup(function(use)
       'phaazon/hop.nvim',
       branch = 'v2', -- optional but strongly recommended
   }
+
+  use {'dstein64/vim-startuptime'}
 end)
