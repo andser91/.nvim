@@ -8,41 +8,53 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
-	  'nvim-telescope/telescope.nvim', tag = '0.1.1',
-	  -- or  )                        , branch = '0.1.x',
-	  requires = { {'nvim-lua/plenary.nvim'} }
-
+	  'nvim-telescope/telescope.nvim', tag = '0.1.1', requires = { {'nvim-lua/plenary.nvim'} }
   }
   use {
-	  "catppuccin/nvim", as = "catppuccin"
-
+	  'nvim-telescope/telescope-fzf-native.nvim', build = 'make', cond = function ()
+		  return vim.fn.executable 'make' == 1
+	  end
   }
+
+  use {"catppuccin/nvim", as = "catppuccin"}
 
   use {
 	  'romgrk/barbar.nvim', requires = {
-	  'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-	  'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-
-  }}
+		  'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+		  'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons_enabled
+	  }
+  }
   use {
 	  'nvim-lualine/lualine.nvim',
 	  requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
+
   use {
 	  'nvim-treesitter/nvim-treesitter',
-	  run = ':TSUpdate'
+	  run = function ()
+		  pcall(require('nvim-treesitter.install').update { with_sync = true})
+	  end
   }
+
+  use {
+	  'nvim-treesitter/nvim-treesitter-textobjects',
+	  after = 'nvim-treesitter'
+  }
+
   use { 'nvim-treesitter/playground' }
   use {
 	  "nvim-tree/nvim-tree.lua",          -- https://github.com/nvim-tree/nvim-tree.lua
-
-      requires = {
+	  requires = {
 		  "nvim-tree/nvim-web-devicons",    -- https://github.com/nvim-tree/nvim-web-devicons
 	  },
 
   }
 
   use 'tpope/vim-fugitive'
+  use 'tpope/vim-rhubarb'
+  use 'lewis6991/gitsigns.nvim'
+  use 'lukas-reineke/indent-blankline.nvim'
+  use 'tpope/vim-sleuth'
   use {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -59,13 +71,14 @@ return require('packer').startup(function(use)
       "ray-x/guihua.lua",
       "simrat39/rust-tools.nvim",
       "puremourning/vimspector",
+      "j-hui/fidget.nvim",
+      "folke/neodev.nvim",
 }
   use { "mbbill/undotree"}
   use {"akinsho/toggleterm.nvim", tag = '*' }
 
 
   use { "terrortylor/nvim-comment" }
-  use { 'lewis6991/gitsigns.nvim' }
   use { 'majutsushi/tagbar' }
   use {
       'phaazon/hop.nvim',

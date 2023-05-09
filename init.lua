@@ -1,7 +1,7 @@
 require("plugins.packer")
 
 require("plugins.catppuccin")
-require("plugins.remap")
+require("plugins.keymap")
 require("plugins.telescope")
 require("plugins.barbar")
 require("plugins.lualine")
@@ -17,3 +17,4 @@ require("plugins.lsp-config")
 require("plugins.fugitive")
 require("plugins.vimspector")
 require("plugins.hop")
+require("plugins.indent_blankline")
